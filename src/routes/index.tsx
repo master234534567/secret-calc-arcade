@@ -284,19 +284,19 @@ const GAMES: Game[] = [
     title: "Retro Bowl",
     tagline: "Pixel-perfect football glory",
     thumbnail: retroBowl,
-    embedUrl: "https://game316818.konggames.com/gamez/0031/6818/live/index.html",
+    embedUrl: "https://retrobowl.me/",
   },
   {
     title: "Slope",
     tagline: "How far can you roll?",
     thumbnail: slope,
-    embedUrl: "https://slope-game.github.io/",
+    embedUrl: "https://slope-game.com/",
   },
   {
     title: "2048",
     tagline: "Merge tiles, chase the 2048",
     thumbnail: game2048,
-    embedUrl: "https://play2048.co/",
+    embedUrl: "https://2048game.com/",
   },
   {
     title: "Tunnel Rush",
