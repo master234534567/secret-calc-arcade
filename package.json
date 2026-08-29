@@ -9,13 +9,13 @@
     "build": "vite build",
     "build:static": "vite build && bun scripts/build-static.mjs",
     "build:dev": "vite build --mode development",
+    "build:pages": "VITE_BASE_PATH=/secret-calc-arcade/ vite build",
     "preview": "vite preview",
-    "deploy": "nitro deploy --prebuilt",
-    "deploy:pages": "vite build",
+    "deploy": "VITE_BASE_PATH=/secret-calc-arcade/ npm run build && gh-pages -d .output/public --dotfiles",
+    "deploy:cloudflare": "nitro deploy --prebuilt",
+    "deploy:pages": "npm run build:pages",
     "lint": "eslint .",
-    "format": "prettier --write .",
-    "predeploy": "npm run build",
-    "deploy": "gh-pages -d dist"
+    "format": "prettier --write ."
   },
   "overrides": {
     "rolldown": "1.2.1"
