@@ -138,11 +138,7 @@ function Calculator({ onUnlock }: { onUnlock: () => void }) {
         return initialState;
       }
       if (s.operator === null || s.previous === null) return s;
-      const result = applyOperation(
-        s.previous,
-        parseFloat(s.display),
-        s.operator,
-      );
+      const result = applyOperation(s.previous, parseFloat(s.display), s.operator);
       return {
         display: formatResult(result),
         previous: null,
@@ -203,11 +199,7 @@ function Calculator({ onUnlock }: { onUnlock: () => void }) {
             <button className={utilBtn} onClick={clear} aria-label="Clear">
               C
             </button>
-            <button
-              className={utilBtn}
-              onClick={backspace}
-              aria-label="Backspace"
-            >
+            <button className={utilBtn} onClick={backspace} aria-label="Backspace">
               <Delete className="h-6 w-6" />
             </button>
             <button
@@ -369,9 +361,7 @@ function GamesPortal({ onLock }: { onLock: () => void }) {
         <div className="mx-auto max-w-7xl px-4 py-4 sm:px-6">
           <div className="flex items-center justify-between gap-4">
             <div>
-              <h1 className="text-xl font-bold tracking-tight text-foreground">
-                Arcade
-              </h1>
+              <h1 className="text-xl font-bold tracking-tight text-foreground">Arcade</h1>
               <p className="text-xs text-muted-foreground">
                 {ALL_GAMES.length} games ready to play
               </p>
@@ -440,9 +430,7 @@ function GamesPortal({ onLock }: { onLock: () => void }) {
                   <h2 className="truncate text-sm font-semibold text-card-foreground">
                     {game.title}
                   </h2>
-                  <p className="truncate text-xs text-muted-foreground">
-                    {game.category}
-                  </p>
+                  <p className="truncate text-xs text-muted-foreground">{game.category}</p>
                 </div>
                 <button
                   onClick={() => setActiveGame(game)}
@@ -483,9 +471,7 @@ function GamesPortal({ onLock }: { onLock: () => void }) {
           aria-label={activeGame.title}
         >
           <div className="flex items-center justify-between border-b border-border px-4 py-3 sm:px-6">
-            <h2 className="font-semibold text-foreground">
-              {activeGame.title}
-            </h2>
+            <h2 className="font-semibold text-foreground">{activeGame.title}</h2>
             <button
               onClick={() => setActiveGame(null)}
               aria-label="Close game"
@@ -523,11 +509,7 @@ function Index() {
   };
 
   return (
-    <div
-      className={`transition-opacity duration-250 ${
-        fading ? "opacity-0" : "opacity-100"
-      }`}
-    >
+    <div className={`transition-opacity duration-250 ${fading ? "opacity-0" : "opacity-100"}`}>
       {view === "calculator" ? (
         <Calculator onUnlock={() => transitionTo("games")} />
       ) : (

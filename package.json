@@ -10,6 +10,8 @@
     "build:static": "vite build && bun scripts/build-static.mjs",
     "build:dev": "vite build --mode development",
     "preview": "vite preview",
+    "deploy": "nitro deploy --prebuilt",
+    "deploy:pages": "vite build",
     "lint": "eslint .",
     "format": "prettier --write .",
     "predeploy": "npm run build",
