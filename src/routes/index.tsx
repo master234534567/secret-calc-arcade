@@ -1,6 +1,16 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useCallback, useEffect, useState } from "react";
-import { Delete, Lock, Play, X } from "lucide-react";
+import { useCallback, useEffect, useMemo, useState } from "react";
+import { Delete, Lock, Play, Search, X } from "lucide-react";
+import catalog from "../data/games.json";
+
+interface CatalogEntry {
+  id: string;
+  title: string;
+  url: string;
+  thumb: string;
+  category: string;
+  desc?: string;
+}
 
 import retroBowl from "../assets/game-retro-bowl.jpg";
 import slope from "../assets/game-slope.jpg";
