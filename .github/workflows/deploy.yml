@@ -27,13 +27,15 @@ jobs:
       - name: Build static site
         # Project sites serve from /<repo>/; a user/organization site
         # (<user>.github.io) or custom domain should use "/" instead.
-        run: VITE_BASE_PATH="/${GITHUB_REPOSITORY#*/}/" bun run build:static
+        run: |
+          VITE_BASE_PATH="/${GITHUB_REPOSITORY#*/}/" npm run build
+          VITE_BASE_PATH="/${GITHUB_REPOSITORY#*/}/" node scripts/generate-gh-pages.mjs
 
       - uses: actions/configure-pages@v5
 
       - uses: actions/upload-pages-artifact@v3
         with:
-          path: dist/client
+          path: ./.output/public
 
   deploy:
     needs: build
