@@ -14,7 +14,7 @@ const serverEntry = await import(
 const app = serverEntry.default ?? serverEntry;
 
 const request = new Request(`http://static.local${base}`);
-const response = await app.fetch(request, {}, {});
+const response = await app.fetch(request, {}, { context: { waitUntil() {} } });
 
 if (!response.ok) {
   throw new Error(`Failed to render /: ${response.status} ${response.statusText}`);
