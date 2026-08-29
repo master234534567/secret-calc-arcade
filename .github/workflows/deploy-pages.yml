@@ -31,7 +31,10 @@ jobs:
         run: npm ci
 
       - name: Build app
-        run: npm run build
+        run: VITE_BASE_PATH=/secret-calc-arcade/ npm run build
+
+      - name: Generate GitHub Pages entry
+        run: VITE_BASE_PATH=/secret-calc-arcade/ node scripts/generate-gh-pages.mjs
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
