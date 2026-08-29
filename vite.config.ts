@@ -11,8 +11,10 @@ export default defineConfig({
     // Redirect TanStack Start's bundled server entry to src/server.ts (our SSR error wrapper).
     // nitro/vite builds from this
     server: { entry: "server" },
-    // SPA mode emits a static index.html so the app can be hosted on
-    // static-only hosts like GitHub Pages (no server runtime needed).
-    spa: { enabled: true, prerender: { enabled: true, crawlLinks: true } },
+  },
+  vite: {
+    // Base path override for static hosting (e.g. GitHub Pages project sites
+    // serve from /<repo>/). Defaults to "/" for Lovable hosting.
+    base: process.env.VITE_BASE_PATH ?? "/",
   },
 });
