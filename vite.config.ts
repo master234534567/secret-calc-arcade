@@ -15,6 +15,6 @@ export default defineConfig({
   vite: {
     // Base path override for static hosting (e.g. GitHub Pages project sites
     // serve from /<repo>/). Defaults to "/" for Lovable hosting.
-    base: process.env.VITE_BASE_PATH ?? "/",
+    base: process.env["VITE_BASE_PATH"] ?? "/",
   },
 });
