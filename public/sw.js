@@ -16,6 +16,20 @@ const PREFIX = new URL("./", self.registration.scope).pathname; // e.g. "/repo/"
 const ROUTE = PREFIX + "svc/";
 const KEY = "g4m3-pr0xy";
 
+/**
+ * Relay hops, tried in order after a direct fetch fails CORS. Each entry is a
+ * URL prefix that receives the percent-encoded upstream URL appended to it and
+ * must respond with `access-control-allow-origin: *`.
+ * Put your own Cloudflare Worker (see workers/bare-relay.js) FIRST — it is a
+ * neutral *.workers.dev hostname, never a game domain, so filters that
+ * blocklist game sites see nothing recognisable.
+ */
+const RELAYS = [
+  // "https://<your-worker>.workers.dev/?url=",
+  "https://api.codetabs.com/v1/proxy?quest=",
+  "https://api.allorigins.win/raw?url=",
+];
+
 /* ----------------------------- codec (UV-like) ---------------------------- */
 function xor(str, decode) {
   if (decode) str = decodeURIComponent(str);
