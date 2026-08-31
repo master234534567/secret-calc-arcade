@@ -85,21 +85,33 @@ async function handle(event) {
     if (["host", "origin", "referer", "service-worker"].includes(k.toLowerCase())) continue;
     headers.set(k, v);
   }
-  headers.set("Referer", t.origin + "/");
-  headers.set("Origin", t.origin);
 
-  let upstream;
-  try {
-    upstream = await fetch(t.href, {
-      method: event.request.method,
-      headers,
-      body: ["GET", "HEAD"].includes(event.request.method) ? undefined : await event.request.blob(),
-      redirect: "manual",
-      credentials: "omit",
-    });
-  } catch (err) {
-    return new Response("upstream unreachable: " + err, { status: 502 });
+  const body = ["GET", "HEAD"].includes(event.request.method) ? undefined : await event.request.blob();
+
+  // Hop chain: direct first (works for CORS-enabled hosts), then each configured
+  // relay in RELAYS. A relay is any endpoint that echoes an upstream response
+  // with `access-control-allow-origin: *` — deploy workers/bare-relay.js to your
+  // own Cloudflare Worker and put its URL first in the list for full coverage.
+  let upstream = null;
+  let lastErr = "";
+  for (const hop of [t.href, ...RELAYS.map((r) => r + encodeURIComponent(t.href))]) {
+    try {
+      const res = await fetch(hop, {
+        method: event.request.method,
+        headers,
+        body,
+        redirect: "manual",
+        credentials: "omit",
+      });
+      if (res.type === "opaque" || res.status === 0) throw new Error("opaque");
+      if (res.status >= 500 && hop !== t.href) throw new Error("relay " + res.status);
+      upstream = res;
+      break;
+    } catch (err) {
+      lastErr = String(err);
+    }
   }
+  if (!upstream) return new Response("upstream unreachable: " + lastErr, { status: 502 });
 
   // follow redirects inside the proxy
   if ([301, 302, 303, 307, 308].includes(upstream.status)) {
