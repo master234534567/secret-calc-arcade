@@ -70,7 +70,15 @@
     (root || document).querySelectorAll("iframe[src]").forEach(rewrite);
   }
 
+  /*
+   * Auto-rewriting every game iframe through the proxy is OPT-IN.
+   * The service worker can only relay hosts that allow CORS (or a relay you
+   * deploy yourself), so forcing every embed through it breaks games that
+   * frame perfectly well on their own. Default: load embeds directly.
+   * Set window.ARCADE_PROXY_ALL = true before this script to force proxying.
+   */
   ready.then(function () {
+    if (!window.ARCADE_PROXY_ALL) return;
     scan(document);
     new MutationObserver(function (records) {
       records.forEach(function (r) {
@@ -88,6 +96,7 @@
       });
     }).observe(document.documentElement, { childList: true, subtree: true, attributes: true, attributeFilter: ["src"] });
   });
+
 
   /* ---------------------------- about:blank cloak -------------------------- */
   function openCloaked(url, title) {
